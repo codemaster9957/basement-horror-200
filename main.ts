@@ -87,6 +87,12 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     )
     mySprite.ay = 0
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile13`, function (sprite, location) {
+    if (controller.A.isPressed()) {
+        tiles.loadMap(tiles.createMap(tilemap`level11`))
+        tiles.placeOnTile(mySprite, tiles.getTileLocation(2, 4))
+    }
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (direction == 1) {
         animation.stopAnimation(animation.AnimationTypes.All, mySprite)
@@ -1150,7 +1156,7 @@ scene.onOverlapTile(SpriteKind.Enemy, assets.tile`transparency16`, function (spr
     mySprite4.destroy()
 })
 controller.combos.attachCombo("A+B", function () {
-    mySprite.sayText("" + mySprite3 + " attack", 5000, true)
+	
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (direction == 1) {
@@ -1539,19 +1545,24 @@ game.onUpdateInterval(5000, function () {
 })
 game.onUpdateInterval(500, function () {
     if (stoopppre == 1) {
-        mySprite6.destroy()
-        color.startFade(color.Black, color.originalPalette, 500)
+        tiles.loadMap(tiles.createMap(tilemap`level10`))
         mySprite.setFlag(SpriteFlag.Invisible, false)
         statusbar2.setFlag(SpriteFlag.Invisible, false)
         statusbar.setFlag(SpriteFlag.Invisible, false)
-        stoopppre = 0
-        tiles.loadMap(tiles.createMap(tilemap`level10`))
         mySprite.sayText("Did I just pass out?", 2000, true)
         tiles.placeOnRandomTile(mySprite, sprites.dungeon.darkGroundCenter)
         scene.cameraFollowSprite(mySprite)
+        mySprite6.destroy()
+        music.smallCrash.play()
+        color.startFade(color.Black, color.GrayScale, 500)
+        color.setPalette(
+        color.GrayScale
+        )
+        mySprite.sayText("The lights have gone out I need to get the torches", 2000, true)
+        stoopppre = 0
     }
 })
-game.onUpdateInterval(100, function () {
+game.onUpdateInterval(300, function () {
     if (flick == 1) {
         color.setPalette(
         color.Black
